@@ -1,0 +1,38 @@
+[package]
+name = "msym-cli"
+description.workspace = true
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+readme.workspace = true
+categories = [
+    "command-line-utilities",
+    "development-tools",
+    "graphics",
+]
+keywords = [
+    "material-symbols",
+    "compose",
+    "android",
+    "kotlin",
+    "icons",
+]
+
+[[bin]]
+name = "msym"
+path = "src/main.rs"
+
+[dependencies]
+toml = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+reqwest = { workspace = true, features = ["rustls", "gzip", "brotli", "zstd"] }
+anyhow = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "fs"] }
+anstream = { workspace = true }
+anstyle = { workspace = true }
+anstyle-progress = { workspace = true }
