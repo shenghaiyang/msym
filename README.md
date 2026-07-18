@@ -35,7 +35,7 @@ optical_size = 24
 icons = [
     "home",
     "add",
-    "arrow-forward",
+    "arrow_back",
 ]
 
 compose_package = "com.example.icons"
