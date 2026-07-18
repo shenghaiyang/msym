@@ -1,6 +1,6 @@
 # Msym
 
-[![Crates.io](https://img.shields.io/crates/v/msym.svg)](https://crates.io/crates/msym)
+[![Crates.io](https://img.shields.io/crates/v/msym-cli.svg)](https://crates.io/crates/msym-cli)
 [![CI](https://github.com/shenghaiyang/msym/actions/workflows/ci.yml/badge.svg)](https://github.com/shenghaiyang/msym/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE-MIT)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE-APACHE)
