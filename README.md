@@ -33,9 +33,9 @@ grade = 0
 optical_size = 24
 
 icons = [
-    "home",
-    "add",
-    "arrow_back",
+  "Home",
+  "Add",
+  "Arrow Back",
 ]
 
 compose_package = "com.example.icons"
@@ -85,6 +85,13 @@ All parameters are optional except `icons`, `compose_package`.
 | `icons`              | *(required)* | list of icon names                              |
 | `compose_package`    | *(required)* | Kotlin package declaration                      |
 | `compose_output_dir` | `.`          | output directory path                           |
+
+### Icon name rules
+
+| Icon name    | download path | Kotlin File name | Icon field name |
+|--------------|---------------|------------------|-----------------|
+| `Home`       | `home`        | `"Home"`         | `home`          |
+| `Arrow Back` | `arrow_back`  | `ArrowBack`      | `arrow_back`    |
 
 ## License
 

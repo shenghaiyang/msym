@@ -4,7 +4,7 @@ resolver = "2"
 
 [workspace.package]
 description = "A CLI tool for downloading Material Symbols Compose code from Google Fonts."
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.96.0"
 authors = ["shenghaiyang"]
@@ -14,15 +14,18 @@ homepage = "https://github.com/shenghaiyang/msym"
 readme = "README.md"
 
 [workspace.dependencies]
-toml = "=1.1.3"
-serde = "=1.0.228"
-reqwest = "=0.13.4"
-anyhow = "=1.0.103"
-clap = "=4.6.2"
-tokio = "=1.53.0"
 anstream = "=1.0.0"
 anstyle = "=1.0.14"
 anstyle-progress = "=0.1.3"
+anyhow = "=1.0.103"
+clap = "=4.6.2"
+heck = "0.5.0"
+num_enum = "=0.7.6"
+reqwest = "=0.13.4"
+serde = "=1.0.228"
+strum = "=0.28.0"
+tokio = "=1.53.0"
+toml = "=1.1.3"
 
 # The profile that 'dist' will build with
 [profile.dist]

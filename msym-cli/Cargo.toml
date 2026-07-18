@@ -27,12 +27,15 @@ name = "msym"
 path = "src/main.rs"
 
 [dependencies]
-toml = { workspace = true }
-serde = { workspace = true, features = ["derive"] }
-reqwest = { workspace = true, features = ["rustls", "gzip", "brotli", "zstd"] }
-anyhow = { workspace = true }
-clap = { workspace = true, features = ["derive"] }
-tokio = { workspace = true, features = ["rt-multi-thread", "macros", "fs"] }
 anstream = { workspace = true }
 anstyle = { workspace = true }
 anstyle-progress = { workspace = true }
+anyhow = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
+heck = { workspace = true }
+num_enum = { workspace = true }
+reqwest = { workspace = true, features = ["rustls", "gzip", "brotli", "zstd"] }
+serde = { workspace = true, features = ["derive"] }
+strum = { workspace = true, features = ["derive"] }
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "fs"] }
+toml = { workspace = true }
