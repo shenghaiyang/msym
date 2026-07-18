@@ -9,13 +9,25 @@ A CLI tool for downloading [Material Symbols](https://fonts.google.com/icons) Co
 
 ## Installation
 
-### Homebrew
+**shell script**
+
+```sh
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/shenghaiyang/msym/releases/latest/download/msym-cli-installer.sh | sh
+```
+
+**powershell script**
+
+```sh
+powershell -ExecutionPolicy Bypass -c "irm https://github.com/shenghaiyang/msym/releases/latest/download/msym-cli-installer.ps1 | iex"
+```
+
+**Homebrew**
 
 ```sh
 brew install shenghaiyang/tap/msym-cli
 ```
 
-### Cargo
+**Cargo**
 
 ```sh
 cargo install msym-cli
