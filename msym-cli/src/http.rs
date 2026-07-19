@@ -26,8 +26,10 @@ pub async fn fetch_body(
     }
 
     let mut body_bytes = Vec::new();
-    anstream::eprint!("{}", TermProgress::start());
-    let _ = std::io::stderr().flush();
+    if show_progress {
+        anstream::eprint!("{}", TermProgress::start());
+        let _ = std::io::stderr().flush();
+    }
 
     loop {
         let chunk = response
@@ -49,10 +51,9 @@ pub async fn fetch_body(
         }
     }
 
-    anstream::eprint!("{}", TermProgress::remove());
-    let _ = std::io::stderr().flush();
-
     if show_progress {
+        anstream::eprint!("{}", TermProgress::remove());
+        let _ = std::io::stderr().flush();
         anstream::eprint!("\r\x1b[2K");
     }
 

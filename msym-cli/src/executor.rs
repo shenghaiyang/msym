@@ -41,10 +41,10 @@ impl Executor {
         })
     }
 
-    pub async fn execute(&self, tasks: &[Task], output_dir: &Path) -> ExecutionResult {
+    pub async fn execute(&self, tasks: &[Task], output_dir: &Path) -> Result<ExecutionResult> {
         tokio::fs::create_dir_all(output_dir)
             .await
-            .expect("Failed to create output directory");
+            .context("Failed to create output directory")?;
 
         let show_progress = self.concurrency == 1;
         let semaphore = Arc::new(Semaphore::new(self.concurrency));
@@ -84,13 +84,13 @@ impl Executor {
             }));
         }
 
-        let downloaded = handles.len() as u32;
         let r = AnsiColor::Red.on_default();
         let mut errors: Vec<(SymbolName, anyhow::Error)> = Vec::new();
+        let mut succeeded = 0u32;
 
         for handle in handles {
             match handle.await {
-                Ok((_icon, Ok(()))) => {}
+                Ok((_icon, Ok(()))) => succeeded += 1,
                 Ok((icon, Err(e))) => errors.push((icon, e)),
                 Err(join_err) => {
                     anstream::eprintln!(
@@ -103,10 +103,10 @@ impl Executor {
             }
         }
 
-        ExecutionResult {
-            downloaded,
+        Ok(ExecutionResult {
+            downloaded: succeeded,
             skipped,
             errors,
-        }
+        })
     }
 }

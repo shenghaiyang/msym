@@ -51,7 +51,7 @@ async fn main() -> Result<()> {
 
     // Stage 3: Execute
     let executor = Executor::new(cli.jobs as usize, cli.force, cli.verbose)?;
-    let result = executor.execute(&tasks, &config.compose_output_dir).await;
+    let result = executor.execute(&tasks, &config.compose_output_dir).await?;
 
     // Stage 4: Report
     if !result.errors.is_empty() {
