@@ -13,8 +13,7 @@ pub struct Cli {
     pub force: bool,
 
     /// Number of concurrent downloads (1–32)
-    #[arg(short = 'j', long, default_value = "4", value_parser = clap::value_parser!(u32).range(1..=32)
-    )]
+    #[arg(short = 'j', long, default_value = "4", value_parser = clap::value_parser!(u32).range(1..=32))]
     pub jobs: u32,
 
     /// Verbose output (show URLs, retry details, etc.)
