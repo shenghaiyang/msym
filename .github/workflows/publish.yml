@@ -1,0 +1,53 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Git tag to publish, e.g. v0.3.0"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.tag }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      - name: Verify tag is on trunk and matches Cargo.toml version
+        run: |
+          # Tag must look like a version tag.
+          case "$TAG" in
+            v[0-9]*) ;;
+            *) echo "::error::tag must look like 'v0.3.0', got: $TAG"; exit 1 ;;
+          esac
+
+          # Tag commit must be reachable from origin/trunk.
+          tag_commit=$(git rev-parse "$TAG^{commit}")
+          if ! git merge-base --is-ancestor "$tag_commit" origin/trunk; then
+            echo "::error::tag '$TAG' ($tag_commit) is not on trunk"
+            exit 1
+          fi
+
+          tag_version="${TAG#v}"
+          cargo_version=$(grep -m1 '^version = ' Cargo.toml | sed 's/version = "\(.*\)"/\1/')
+          echo "tag version:        $tag_version"
+          echo "Cargo.toml version: $cargo_version"
+          if [ "$tag_version" != "$cargo_version" ]; then
+            echo "::error::version mismatch: tag '$tag_version' != Cargo.toml '$cargo_version'"
+            exit 1
+          fi
+
+      - name: Publish to crates.io
+        run: cargo publish --locked
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
