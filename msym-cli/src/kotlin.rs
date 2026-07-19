@@ -90,7 +90,9 @@ pub fn add_import(source: &str, import_path: &str) -> String {
 }
 
 fn package_line_index(lines: &[&str]) -> Option<usize> {
-    lines.iter().position(|line| line.trim_start().starts_with("package "))
+    lines
+        .iter()
+        .position(|line| line.trim_start().starts_with("package "))
 }
 
 /// Turn the top-level icon property into an extension property of `receiver`.
@@ -138,7 +140,11 @@ fn replace_ident(source: &str, needle: &str, replacement: &str) -> String {
     while i < chars.len() {
         if i + n <= chars.len() && chars[i..i + n] == needle_chars[..] {
             let prev = if i == 0 { '\0' } else { chars[i - 1] };
-            let next = if i + n >= chars.len() { '\0' } else { chars[i + n] };
+            let next = if i + n >= chars.len() {
+                '\0'
+            } else {
+                chars[i + n]
+            };
             if !is_ident_char(prev) && !is_ident_char(next) {
                 out.push_str(replacement);
                 i += n;
@@ -161,7 +167,8 @@ mod tests {
 
     #[test]
     fn single_word() {
-        let src = "public val home: ImageVector\nprivate var _home: ImageVector? = null\nname = \"home\"";
+        let src =
+            "public val home: ImageVector\nprivate var _home: ImageVector? = null\nname = \"home\"";
         let out = rename_field_upper_camel(src, "home");
         assert!(out.contains("public val Home: ImageVector"));
         assert!(out.contains("private var _Home: ImageVector? = null"));
@@ -208,7 +215,8 @@ mod tests {
 
     #[test]
     fn extension_class_after_upper_camel() {
-        let src = "public val arrow_back: ImageVector\nprivate var _arrow_back: ImageVector? = null";
+        let src =
+            "public val arrow_back: ImageVector\nprivate var _arrow_back: ImageVector? = null";
         let renamed = rename_field_upper_camel(src, "arrow_back");
         let out = set_extension_class(&renamed, "Rounded");
         assert!(out.contains("public val Rounded.ArrowBack: ImageVector"));
@@ -227,10 +235,19 @@ mod tests {
         let src = "package com.example\n\nimport androidx.compose.ui.graphics.Color\nimport androidx.compose.ui.unit.dp\n\npublic val home: ImageVector";
         let out = add_import(src, "com.example.icons.Symbols.Rounded");
         let lines: Vec<&str> = out.lines().collect();
-        let import_idx = lines.iter().position(|l| *l == "import com.example.icons.Symbols.Rounded").unwrap();
+        let import_idx = lines
+            .iter()
+            .position(|l| *l == "import com.example.icons.Symbols.Rounded")
+            .unwrap();
         // stays within the import block, before the blank line / body
-        assert!(import_idx < lines.iter().rposition(|l| l.starts_with("import ")).unwrap()
-            || lines[import_idx + 1].is_empty());
+        assert!(
+            import_idx
+                < lines
+                    .iter()
+                    .rposition(|l| l.starts_with("import "))
+                    .unwrap()
+                || lines[import_idx + 1].is_empty()
+        );
         assert!(out.contains("import androidx.compose.ui.unit.dp"));
     }
 
