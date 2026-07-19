@@ -4,7 +4,7 @@ resolver = "2"
 
 [workspace.package]
 description = "A CLI tool for downloading Material Symbols Compose code from Google Fonts."
-version = "0.2.0"
+version = "0.3.0"
 edition = "2024"
 rust-version = "1.96.0"
 authors = ["shenghaiyang"]

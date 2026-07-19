@@ -9,6 +9,8 @@ pub struct Task {
     pub url: String,
     pub output_path: PathBuf,
     pub package: String,
+    pub compose_upper_camel_fields: bool,
+    pub compose_extension_class: Option<String>,
 }
 
 /// Build download tasks from config.
@@ -25,6 +27,8 @@ pub fn build_tasks(config: &Config) -> Vec<Task> {
                 url: build_url(config, symbol.to_url_name()),
                 output_path: output_dir.join(&filename),
                 package: package.clone(),
+                compose_upper_camel_fields: config.compose_upper_camel_fields,
+                compose_extension_class: config.compose_extension_class.clone(),
             }
         })
         .collect()
