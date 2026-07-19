@@ -1,5 +1,34 @@
 use heck::ToUpperCamelCase;
 
+/// All inputs needed to turn a raw downloaded Kotlin source into the final
+/// output file. Grouped so the transform pipeline is self-contained and
+/// testable without HTTP I/O.
+#[derive(Debug, Clone)]
+pub struct TransformConfig {
+    pub package: String,
+    /// The snake_case icon name as it appears in the downloaded source.
+    pub field_name: String,
+    pub upper_camel_fields: bool,
+    /// Fully-qualified receiver class; the last segment is used in code and
+    /// the full value is imported.
+    pub extension_class: Option<String>,
+}
+
+/// Apply the full Kotlin source transform pipeline in order:
+/// package → rename → extension → import.
+pub fn transform(source: &str, cfg: &TransformConfig) -> String {
+    let mut s = set_package(source, &cfg.package);
+    if cfg.upper_camel_fields {
+        s = rename_field_upper_camel(&s, &cfg.field_name);
+    }
+    if let Some(class) = &cfg.extension_class {
+        let receiver = class.rsplit('.').next().unwrap_or(class);
+        s = set_extension_class(&s, receiver);
+        s = add_import(&s, class);
+    }
+    s
+}
+
 /// Replace the package declaration in Kotlin source, or insert one if missing.
 pub fn set_package(source: &str, package: &str) -> String {
     let package_line = format!("package {}", package);
@@ -217,5 +246,36 @@ mod tests {
         let src = "package com.example\n\npublic val home: ImageVector";
         let out = add_import(src, "com.example.icons.Symbols.Rounded");
         assert!(out.contains("package com.example\nimport com.example.icons.Symbols.Rounded"));
+    }
+
+    #[test]
+    fn transform_full_pipeline() {
+        let src = "package com.google.fonts\n\npublic val arrow_back: ImageVector\n  get() = _arrow_back!!\n\nprivate var _arrow_back: ImageVector? = null";
+        let cfg = TransformConfig {
+            package: "com.example.icons".to_string(),
+            field_name: "arrow_back".to_string(),
+            upper_camel_fields: true,
+            extension_class: Some("com.example.icons.Symbols.Rounded".to_string()),
+        };
+        let out = transform(src, &cfg);
+        assert!(out.contains("package com.example.icons"));
+        assert!(out.contains("import com.example.icons.Symbols.Rounded"));
+        assert!(out.contains("public val Rounded.ArrowBack: ImageVector"));
+        assert!(out.contains("private var _ArrowBack: ImageVector? = null"));
+    }
+
+    #[test]
+    fn transform_package_only() {
+        let src = "package com.google.fonts\n\npublic val home: ImageVector";
+        let cfg = TransformConfig {
+            package: "com.example.icons".to_string(),
+            field_name: "home".to_string(),
+            upper_camel_fields: false,
+            extension_class: None,
+        };
+        let out = transform(src, &cfg);
+        assert!(out.contains("package com.example.icons"));
+        assert!(!out.contains("import com.example"));
+        assert!(out.contains("public val home: ImageVector"));
     }
 }

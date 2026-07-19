@@ -1,5 +1,6 @@
 use crate::config::Config;
 use crate::config::symbol_name::SymbolName;
+use crate::kotlin::TransformConfig;
 use std::path::PathBuf;
 
 /// A self-contained download job.
@@ -8,9 +9,7 @@ pub struct Task {
     pub symbol_name: SymbolName,
     pub url: String,
     pub output_path: PathBuf,
-    pub package: String,
-    pub compose_upper_camel_fields: bool,
-    pub compose_extension_class: Option<String>,
+    pub transform: TransformConfig,
 }
 
 /// Build download tasks from config.
@@ -26,9 +25,12 @@ pub fn build_tasks(config: &Config) -> Vec<Task> {
                 symbol_name: symbol.clone(),
                 url: build_url(config, symbol.to_url_name()),
                 output_path: output_dir.join(&filename),
-                package: package.clone(),
-                compose_upper_camel_fields: config.compose_upper_camel_fields,
-                compose_extension_class: config.compose_extension_class.clone(),
+                transform: TransformConfig {
+                    package: package.clone(),
+                    field_name: symbol.to_url_name(),
+                    upper_camel_fields: config.compose_upper_camel_fields,
+                    extension_class: config.compose_extension_class.clone(),
+                },
             }
         })
         .collect()
