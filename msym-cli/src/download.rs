@@ -1,5 +1,5 @@
 use crate::http::{fetch_body, format_size};
-use crate::kotlin::set_package;
+use crate::kotlin::{add_import, rename_field_upper_camel, set_extension_class, set_package};
 use crate::task::Task;
 use anstyle::AnsiColor;
 use anyhow::{Context, Result};
@@ -20,7 +20,15 @@ pub async fn download_task(
     let body_bytes = fetch_body(client, &task.url, &task.symbol_name, show_progress).await?;
 
     let body = String::from_utf8_lossy(&body_bytes).into_owned();
-    let modified = set_package(&body, &task.package);
+    let mut modified = set_package(&body, &task.package);
+    if task.compose_upper_camel_fields {
+        modified = rename_field_upper_camel(&modified, &task.symbol_name.to_url_name());
+    }
+    if let Some(class) = &task.compose_extension_class {
+        let receiver = class.rsplit('.').next().unwrap_or(class);
+        modified = set_extension_class(&modified, receiver);
+        modified = add_import(&modified, class);
+    }
 
     if let Some(parent) = task.output_path.parent() {
         tokio::fs::create_dir_all(parent)

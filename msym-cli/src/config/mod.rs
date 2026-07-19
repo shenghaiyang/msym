@@ -27,6 +27,8 @@ pub struct Config {
     pub symbol_names: Vec<SymbolName>,
     pub compose_package: String,
     pub compose_output_dir: PathBuf,
+    pub compose_upper_camel_fields: bool,
+    pub compose_extension_class: Option<String>,
 }
 
 impl Config {
@@ -86,6 +88,8 @@ impl Config {
             symbol_names,
             compose_package: raw.compose_package,
             compose_output_dir,
+            compose_upper_camel_fields: raw.compose_upper_camel_fields.unwrap_or(false),
+            compose_extension_class: raw.compose_extension_class,
         })
     }
 }

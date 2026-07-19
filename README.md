@@ -45,13 +45,19 @@ grade = 0
 optical_size = 24
 
 icons = [
-  "Home",
-  "Add",
-  "Arrow Back",
+    "Home",
+    "Add",
+    "Arrow Back",
 ]
 
-compose_package = "com.example.icons"
-compose_output_dir = "src/main/kotlin/com/example/icons"
+compose_package = "com.example.icons.rounded"
+compose_output_dir = "src/main/kotlin/com/example/icons/rounded"
+
+# Optional: rename icon fields from snake_case to UpperCamelCase.
+compose_upper_camel_fields = true
+
+# Optional: generate icon properties as extensions of a class.
+compose_extension_class = "com.example.icons.Symbols.Rounded"
 ```
 
 **Step 2 — Run:**
@@ -87,23 +93,33 @@ msym -f -j 8                   # force, 8 parallel downloads
 
 All parameters are optional except `icons`, `compose_package`.
 
-| Parameter            | Default      | Options                                         |
-|----------------------|--------------|-------------------------------------------------|
-| `style`              | `"rounded"`  | `rounded`, `outlined`, `sharp`                  |
-| `fill`               | `false`      | `true`, `false`                                 |
-| `weight`             | `400`        | `100`, `200`, `300`, `400`, `500`, `600`, `700` |
-| `grade`              | `0`          | `-25`, `0`, `200`                               |
-| `optical_size`       | `24`         | `20`, `24`, `40`, `48`                          |
-| `icons`              | *(required)* | list of icon names                              |
-| `compose_package`    | *(required)* | Kotlin package declaration                      |
-| `compose_output_dir` | `.`          | output directory path                           |
+| Parameter                    | Default      | Options                                                            |
+|------------------------------|--------------|--------------------------------------------------------------------|
+| `style`                      | `"rounded"`  | `rounded`, `outlined`, `sharp`                                     |
+| `fill`                       | `false`      | `true`, `false`                                                    |
+| `weight`                     | `400`        | `100`, `200`, `300`, `400`, `500`, `600`, `700`                    |
+| `grade`                      | `0`          | `-25`, `0`, `200`                                                  |
+| `optical_size`               | `24`         | `20`, `24`, `40`, `48`                                             |
+| `icons`                      | *(required)* | list of icon names                                                 |
+| `compose_package`            | *(required)* | Kotlin package declaration                                         |
+| `compose_output_dir`         | `.`          | output directory path                                              |
+| `compose_upper_camel_fields` | `false`      | `true`, `false`                                                    |
+| `compose_extension_class`    | *(unset)*    | fully-qualified receiver, e.g. `com.example.icons.Symbols.Rounded` |
 
 ### Icon name rules
 
-| Icon name    | download path | Kotlin File name | Icon field name |
-|--------------|---------------|------------------|-----------------|
-| `Home`       | `home`        | `"Home"`         | `home`          |
-| `Arrow Back` | `arrow_back`  | `ArrowBack`      | `arrow_back`    |
+| Icon name    | Kotlin File name | Icon field name (default) | `compose_upper_camel_fields = true` |
+|--------------|------------------|---------------------------|-------------------------------------|
+| `Home`       | `Home`           | `home`                    | `Home`                              |
+| `Arrow Back` | `ArrowBack`      | `arrow_back`              | `ArrowBack`                         |
+
+When `compose_extension_class` is set to a fully-qualified class name, the icon property is generated as an extension on
+the last segment of that type instead of a top-level `val`. Combine with `compose_upper_camel_fields = true` to get
+`public val Rounded.Home: ImageVector`. The backing field (`private var _Home`)
+stays top-level because extension properties cannot have backing fields. The full class name is imported as-is — e.g.
+with
+`compose_extension_class = "com.example.icons.Symbols.Rounded"`,
+`import com.example.icons.Symbols.Rounded` is added and the receiver is referenced as `Rounded`.
 
 ## License
 

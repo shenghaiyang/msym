@@ -11,6 +11,8 @@ pub struct RawConfig {
     pub icons: Vec<String>,
     pub compose_package: String,
     pub compose_output_dir: Option<String>,
+    pub compose_upper_camel_fields: Option<bool>,
+    pub compose_extension_class: Option<String>,
 }
 
 impl RawConfig {
