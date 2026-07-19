@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.0
+## v0.3.0
 
 - Add `compose_upper_camel_fields` config option to rename icon fields from
   snake_case to UpperCamelCase (e.g. `arrow_back` → `ArrowBack`).
@@ -10,7 +10,7 @@
   type (e.g. `compose_extension_class = "com.example.icons.Symbols.Rounded"`
   produces `public val Rounded.Home: ImageVector`).
 
-## 0.2.0
+## v0.2.0
 
 - Refactor internal architecture.
 - Pin Rust crate `heck` to `=0.5.0`.
@@ -18,6 +18,6 @@
 - Fix badge link in README.
 - Add shell installation instructions.
 
-## 0.1.0
+## v0.1.0
 
 Initial release.
