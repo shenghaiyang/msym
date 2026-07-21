@@ -8,11 +8,17 @@
       "matchManagers": [
         "cargo"
       ],
-      "matchUpdateTypes": [
-        "patch",
-        "minor"
-      ],
       "rangeStrategy": "pin"
+    },
+    {
+      "matchManagers": [
+        "cargo"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "Rust minor/patch dependencies"
     }
   ]
 }
