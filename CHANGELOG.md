@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.3.1
+
+- Update Rust crate `clap` to v4.6.3.
+- Update Rust crate `tokio` to v1.53.1.
+
 ## v0.3.0
 
 - Add `compose_upper_camel_fields` config option to rename icon fields from
