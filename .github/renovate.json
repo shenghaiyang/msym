@@ -8,6 +8,10 @@
       "matchManagers": [
         "cargo"
       ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
       "rangeStrategy": "pin"
     }
   ]
