@@ -18,14 +18,14 @@ anstream = "=1.0.0"
 anstyle = "=1.0.14"
 anstyle-progress = "=0.1.4"
 anyhow = "=1.0.104"
-clap = "=4.6.5"
+clap = "=4.6.6"
 heck = "=0.5.0"
 num_enum = "=0.7.6"
-reqwest = "=0.13.4"
+reqwest = "=0.13.5"
 serde = "=1.0.229"
 strum = "=0.28.0"
 tokio = "=1.53.1"
-toml = "=1.1.4"
+toml = "=1.1.6"
 
 # The profile that 'dist' will build with
 [profile.dist]
