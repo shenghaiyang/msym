@@ -10,7 +10,6 @@ rust-version = "1.100.0"
 authors = ["shenghaiyang"]
 license = "Apache-2.0"
 repository = "https://github.com/shenghaiyang/msym"
-homepage = "https://github.com/shenghaiyang/msym"
 readme = "README.md"
 
 [workspace.dependencies]
