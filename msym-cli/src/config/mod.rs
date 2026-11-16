@@ -1,5 +1,6 @@
 use anyhow::{Context, Result, bail};
 use raw_config::RawConfig;
+use std::collections::HashSet;
 use std::path::PathBuf;
 use std::str::FromStr;
 use symbol_grade::SymbolGrade;
@@ -63,11 +64,14 @@ impl Config {
             })
         })?;
 
+        let mut seen = HashSet::new();
         let symbol_names: Vec<SymbolName> = raw
             .icons
             .into_iter()
-            .filter(|s| !s.trim().is_empty())
+            .map(|s| s.trim().to_string())
+            .filter(|s| !s.is_empty())
             .map(SymbolName::new)
+            .filter(|name| seen.insert(name.to_url_name()))
             .collect();
         if symbol_names.is_empty() {
             bail!("Empty icon names");

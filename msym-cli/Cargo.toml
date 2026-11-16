@@ -37,5 +37,5 @@ num_enum = { workspace = true }
 reqwest = { workspace = true, features = ["rustls", "gzip", "brotli", "zstd"] }
 serde = { workspace = true, features = ["derive"] }
 strum = { workspace = true, features = ["derive"] }
-tokio = { workspace = true, features = ["rt-multi-thread", "macros", "fs"] }
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "fs", "sync"] }
 toml = { workspace = true }
