@@ -2,7 +2,7 @@ use clap::Parser;
 
 /// Download Material Symbols Compose code from Google Fonts.
 #[derive(Parser)]
-#[command(name = "msym")]
+#[command(name = "msym", version, author, about)]
 pub struct Cli {
     /// Path to the config file
     #[arg(default_value = "msym.toml")]
