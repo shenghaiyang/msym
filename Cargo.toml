@@ -16,15 +16,15 @@ readme = "README.md"
 anstream = "=1.0.0"
 anstyle = "=1.0.14"
 anstyle-progress = "=0.1.6"
-anyhow = "=1.0.104"
-clap = "=4.6.7"
+anyhow = "=1.0.105"
+clap = "=4.6.10"
 heck = "=0.5.0"
 num_enum = "=0.7.6"
 reqwest = "=0.13.5"
 serde = "=1.0.229"
 strum = "=0.28.0"
 tokio = "=1.54.1"
-toml = "=1.2.1"
+toml = "=1.2.3"
 
 # The profile that 'dist' will build with
 [profile.dist]
